@@ -21,6 +21,17 @@ export default class Contract {
 				defineReadOnly(this, name, getCall);
 			}
 		}
+
+		const sendFunctions = this.functions
+			.filter(x => x.stateMutability !== 'pure' && x.stateMutability !== 'view');
+
+		for (const sendFunction of sendFunctions) {
+			const name = sendFunction.name;
+			const getCall = makeCallFunction(this, name);
+			if (!this[name]) {
+				defineReadOnly(this, name, getCall, true);
+			}
+		}
 	}
 }
 
@@ -41,10 +52,10 @@ function makeCallFunction(contract: Contract, name: string) {
 	};
 }
 
-function defineReadOnly(object: any, name: string, value: any) {
+function defineReadOnly(object: any, name: string, value: any, writable: boolean=false) {
 	Object.defineProperty(object, name, {
 		enumerable: true,
 		value: value,
-		writable: false,
+		writable: writable,
 	});
 }

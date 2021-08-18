@@ -1,4 +1,4 @@
-import * as multicallAbi from './abi/multicall.json';
+import * as multicallAbi from './abi/multicall2.json';
 
 import Contract from './contract';
 
