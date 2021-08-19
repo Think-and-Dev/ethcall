@@ -34,7 +34,8 @@ const daiAddress = '0x6b175474e89094c44da98b954eedeac495271d0f';
 
 async function call() {
 	const ethcallProvider = new Provider();
-	await ethcallProvider.init(provider);
+	const chainId = (await provider.getNetwork()).chainId
+	await ethcallProvider.init(provider, chainId);
 
 	const daiContract = new Contract(daiAddress, erc20Abi);
 
